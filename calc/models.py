@@ -9,5 +9,5 @@ class Person(models.Model):
     phone = models.IntegerField(null=True)
 
     def __str__(self):
-        return
+        return "姓名:%s,年龄:%s,性别:%s,联系方式:%s" % (self.name, self.age, self.sex, self.phone)
 # Create your models here.
