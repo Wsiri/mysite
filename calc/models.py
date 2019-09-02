@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 
 
 class Person(models.Model):
@@ -19,12 +20,35 @@ class Blog(models.Model):
         return self.name
 
 
-class Author (models.Model):
+@python_2_unicode_compatible
+class Author(models.Model):
     name = models.CharField(max_length=300)
+    qq = models.CharField(max_length=50,null=True)
+    addr = models.TextField(null=True)
     email = models.EmailField()
 
     def __str__(self):
         return self.name
+
+
+@python_2_unicode_compatible
+class Tag(models.Model):
+    name = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.name
+
+
+@python_2_unicode_compatible
+class Article(models.Model):
+    title = models.CharField(max_length=50)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    content = models.TextField(null=True)
+    tags = models.ManyToManyField(Tag)
+    score = models.IntegerField()
+
+    def __str__(self):
+        return self.title
 
 
 class Entry(models.Model):
@@ -40,6 +64,5 @@ class Entry(models.Model):
 
     def __str__(self):
         return self.headline
-
 
 # Create your models here.
